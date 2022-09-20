@@ -7,7 +7,7 @@ export const s3ClientCofig = {
 };
 
 export const API_ENDPOINT =
-  "https://e6peunmjsj.execute-api.us-east-2.amazonaws.com/default/repository";
+  "https://3ryndvoemj.execute-api.us-east-2.amazonaws.com/prod";
 
 export const CONTENT_TYPE_FORMAT = {
   x3d: "application/vnd.hzn-3d-crossword",
