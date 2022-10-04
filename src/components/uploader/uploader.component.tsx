@@ -1,7 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
+import Mime from "mime";
 import axios from "axios";
-// import http from "../../utils/API";
 
 import { useDropzone } from "react-dropzone";
 
@@ -20,11 +20,18 @@ const Uploader = () => {
   };
 
   const getDataOfFile = (file: File) => {
-    const type = file.type;
+    let type = file.type;
     let nof;
-    // if (user.isAuth)
-    // nof = user.name+uuidv4()+`.${file.type} else
-    nof = "kirill/" + uuidv4() + `.${getFileType(file.name)}`;
+    let format = getFileType(file.name);
+    if (!format) return;
+    if (type === "") {
+      let tempType = Mime.getType(file.name);
+      if (!tempType)
+        type = JSON.parse(JSON.stringify(CONTENT_TYPE_FORMAT))[format];
+      else type = tempType;
+      if (!type) type = `text/${format}`;
+    }
+    nof = "kirill/" + uuidv4() + `.${format}`;
     return { type: type, nof: nof };
   };
 
@@ -47,33 +54,6 @@ const Uploader = () => {
       });
       console.log("result =>", result);
     });
-
-    // axios
-    //   .post(
-    //     "https://3ryndvoemj.execute-api.us-east-2.amazonaws.com/prod"
-    //
-    //     // { nof: "kirill/777.jpg", type: "jpg" },
-    //     // {
-    //     //   headers: {
-    //     //     "Content-Type": "application/json",
-    //     //     Accept: "application/json",
-    //     //   },
-    //     // }
-    //   )
-    //   .then((response) => {
-    //     console.log("response", JSON.stringify(response));
-    //   })
-    //   .catch((error: Error) => {
-    //     console.error(error);
-    //   });
-    // axios
-    //   .post(API_ENDPOINT, getDataOfFile(acceptedFiles[0]))
-    //   .then((response: any) => {
-    //     console.log("response", response);
-    //   })
-    //   .catch((error: Error) => {
-    //     console.error(error);
-    //   });
   };
 
   return (
